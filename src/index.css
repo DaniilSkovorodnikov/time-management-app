@@ -1,0 +1,31 @@
+body, html{
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+p,h1,h2,h3{
+    margin: 0;
+    padding: 0;
+}
+
+ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+button{
+    cursor: pointer;
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+}
