@@ -1,7 +1,10 @@
+import { useAppSelector } from '../../hooks/redux'
 import './Sidebar.scss'
 
-export default function Sidebar({isOpened}: {isOpened: boolean}) {
-	return (<div className='sidebar' style={{width: isOpened ? '17%' : '0px'}}>
+export default function Sidebar() {
+	const {openedSidebar} = useAppSelector(state => state.layoutSlice)
+
+	return (<div className='sidebar' style={{width: openedSidebar ? '17%' : '0px'}}>
 
 	</div>)
 }

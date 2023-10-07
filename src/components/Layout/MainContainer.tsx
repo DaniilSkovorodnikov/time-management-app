@@ -4,10 +4,10 @@ import Kanban from "../Kanban/Kanban";
 import Sidebar from "./Sidebar";
 import './MainContainer.scss'
 
-export default function MainContainer({openedSidebar} : {openedSidebar: boolean}){
+export default function MainContainer(){
     return (
         <main className="main">
-            <Sidebar isOpened={openedSidebar}/>
+            <Sidebar/>
             <div className="container">
                 <BrowserRouter>
                     <Routes>

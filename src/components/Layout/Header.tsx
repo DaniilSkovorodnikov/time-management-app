@@ -1,11 +1,12 @@
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { layoutSlice } from '../../store/reducers/LayoutReducer'
 import './Header.scss'
 
-export default function Header({isOpenedSidebarSetter}: HeaderProps){
-    return (<header className="header">
-        <button className="header__gamburger" onClick={() => isOpenedSidebarSetter(true)}/>
-    </header>)
-}
+export default function Header(){
+    const {changeSidebarVisibility} = layoutSlice.actions
+    const dispatch = useAppDispatch()
 
-interface HeaderProps{
-    isOpenedSidebarSetter: (value:boolean) => void
+    return (<header className="header">
+        <button onClick={() => dispatch(changeSidebarVisibility())} className="header__gamburger"/>
+    </header>)
 }
