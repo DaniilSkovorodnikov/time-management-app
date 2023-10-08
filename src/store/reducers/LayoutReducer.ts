@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 interface LayoutState{
-    openedSidebar: boolean
+    openedSidebar: boolean,
+    openedModal: boolean
 }
 
 const initialState: LayoutState = {
-    openedSidebar: false
+    openedSidebar: false,
+    openedModal: false
 }
 
 export const layoutSlice = createSlice({
@@ -14,7 +16,10 @@ export const layoutSlice = createSlice({
     reducers: {
         changeSidebarVisibility(state){
             state.openedSidebar = !state.openedSidebar
-        }
+        },
+        changeModalVisibility(state){
+            state.openedModal = !state.openedModal
+        },
     }
 })
 

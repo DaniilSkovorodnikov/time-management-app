@@ -1,8 +1,10 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import layoutSlice from './reducers/LayoutReducer'
+import projectSlice from './reducers/ProjectReducer';
 
 const rootReducer = combineReducers({
-    layoutSlice
+    layoutSlice,
+    projectSlice
 })
 
 export const setupStore = () => configureStore({

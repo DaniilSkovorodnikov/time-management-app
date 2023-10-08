@@ -1,14 +1,24 @@
 import Header from './components/Layout/Header';
 import MainContainer from './components/Layout/MainContainer';
 import './App.scss'
+import { BrowserRouter } from 'react-router-dom';
+import { useEffect } from 'react';
+import { loadProjects } from './store/actionCreators/ProjectsActions';
+import { useAppDispatch } from './hooks/redux';
 
 function App(){
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    loadProjects(dispatch)
+  }, [dispatch])
 
   return (
-    <div className='app-wrapper'>
-      <Header/>
-      <MainContainer/>
-    </div>
+    <BrowserRouter>
+      <div className='app-wrapper'>
+        <Header/>
+        <MainContainer/>
+      </div>
+    </BrowserRouter>
   )
 }
 

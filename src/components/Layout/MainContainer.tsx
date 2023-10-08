@@ -9,12 +9,10 @@ export default function MainContainer(){
         <main className="main">
             <Sidebar/>
             <div className="container">
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<TodoList/>}/>
-                        <Route path="/kanban" element={<Kanban/>}/>
-                    </Routes>
-                </BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<TodoList/>}/>
+                    <Route path="/kanban" element={<Kanban/>}/>
+                </Routes>
             </div>
         </main>
         

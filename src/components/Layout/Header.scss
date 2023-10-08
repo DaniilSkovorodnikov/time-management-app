@@ -1,3 +1,4 @@
+@import '../../const.scss';
 .header{
     height: 50px;
     background-color: #333;
@@ -12,7 +13,7 @@
         background-size: 30px 30px;
         background-repeat: no-repeat;
         background-position: 50% 50%;
-        transition: all 0.1s linear;
+        transition: $hover-transition;
         border-radius: 3px;
 
         &:hover{
