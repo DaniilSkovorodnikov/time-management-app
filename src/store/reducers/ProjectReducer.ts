@@ -1,16 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IProject } from "../../models/IProject";
+import { IProject, TodayProject } from "../../models/IProject";
 
 interface ProjectState{
     projects: IProject[],
     isLoading: boolean,
-    error: string
+    error: string,
+    activeProjectId: number 
 }
 
 const initialState: ProjectState = {
     projects: [],
     isLoading: false,
-    error: ''
+    error: '',
+    activeProjectId: TodayProject.id
 }
 
 export const projectSlice = createSlice({
@@ -27,8 +29,26 @@ export const projectSlice = createSlice({
         updateProjectsError(state, action){
             state.error = action.payload;
             state.isLoading = false
+        },
+        addProject(state, action){
+            state.projects.push(action.payload);
+            state.isLoading = false
+        },
+        changeActiveProject(state, action){
+            state.activeProjectId = action.payload
+        },
+        addNewList(state, {payload}: {payload: AddListPayload}){
+            const activeProject = state.projects.find(project => project.id === payload.activeProjectId)
+            if(activeProject){
+                activeProject.lists = activeProject.lists ? [...activeProject.lists, payload.listName] : [payload.listName]
+            }
         }
     }
 });
 
 export default projectSlice.reducer;
+
+interface AddListPayload{
+    activeProjectId: number
+    listName: string
+}

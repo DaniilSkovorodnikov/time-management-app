@@ -33,4 +33,21 @@ button{
     display: inline-block;
     background-color: transparent;
     border: none;
+    color: inherit;
+    font-family: inherit;
+}
+
+input, textarea{
+    border: #454545 1px solid;
+    border-radius: 10px;
+    outline: none;
+    background-color: #202020;
+    color: #fff;
+    font-family: inherit;
+    transition: border 0.1s;
+    padding: 0 10px;
+
+    &:focus{ 
+        border: #6a6a6a 1px solid;
+    }
 }

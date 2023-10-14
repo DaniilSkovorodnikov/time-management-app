@@ -1,0 +1,60 @@
+.tasks{
+    padding: 40px 60px;
+
+    &__header{
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #6b6a6a;
+    }
+
+    &__headerButtons{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__addList{
+        width: 24px;
+        height: 24px;
+        background: url('../../assets/icons/plus-icon.svg') no-repeat;
+        background-size: 20px 20px;
+        background-position: 50% 50%;
+        border-radius: 4px;
+
+        &:hover{
+            background-color: #292929;
+          }
+    }
+
+    &__list{
+        margin-top: 20px;
+        width: 98%;
+        margin-left: auto;
+    }
+}
+
+.project{
+    &__header{
+        border-bottom: 1px solid #6b6a6a ;
+        padding-bottom: 6px;
+    }
+
+    &__addTask{
+        height: 25px;
+        font-size: 12px;
+        margin-top: 15px;
+        background-color: crimson;
+        border-radius: 6px;
+        padding: 0 8px;
+        transition: opacity 50ms linear;
+
+        &:hover{
+            opacity: 0.8;
+        }
+
+        &:active{
+            opacity: 1;
+        }
+    }
+}
