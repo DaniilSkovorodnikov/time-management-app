@@ -79,6 +79,10 @@
     overflow: hidden;
     transition: max-height 0.6s cubic-bezier(.4,0,.2,1) ;
   }
+
+  &__item{
+    white-space: nowrap;
+  }
 }
 
 .buttons{

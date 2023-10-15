@@ -19,7 +19,7 @@ export default function Sidebar() {
 
 	const [openedList, setOpenedList] = useState<boolean>(false);
 
-	return (<div className='sidebar' style={{width: openedSidebar ? '22%' : '0px'}}>
+	return (<div className='sidebar' style={{width: openedSidebar ? '260px' : '0px'}}>
 		<ul className='sidebar__sections'>
 			<li className='sidebar__section section' onClick={() => dispatch(changeActiveProject(TodayProject.id))}>
 				<img src={calendarIcon} className='section__icon'/>
@@ -47,12 +47,12 @@ export default function Sidebar() {
 					</button>
 				</div>
 			</div>
-			<ul className="projects__list" style={{maxHeight: openedList ? 10000 : 0}}>
+			<ul className="projects__list" style={{maxHeight: openedList ? projects.length * 40 : 0}}>
 				{projects.map((project: IProject) => <li 
 				className='projects__item' 
 				key={project.id} 
 				onClick={() => dispatch(changeActiveProject(project.id))}>
-					{project.name}
+					{project.name.length > 23 ? `${project.name.slice(0, 23)}...` : project.name}
 				</li>)}
 			</ul>
 		</div>
