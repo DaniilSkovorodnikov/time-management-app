@@ -1,25 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ITask } from "../../models/ITask";
 
-export interface Task{
-    name: string,
-    description: string,
-    projectId: number | null,
-    sectionName: string | null,
-    executionPeriod: Date
+interface TasksState{
+    tasks: ITask[],
+    isLoading: boolean,
+    error: string
 }
 
-const initialState: Task = {
-    name: '',
-    description: '',
-    projectId: null,
-    sectionName: null,
-    executionPeriod: new Date()
+const initialState: TasksState = {
+    tasks: [],
+    isLoading: false,
+    error: ''
 }
 
-export const taskSlice = createSlice({
+export const tasksSlice = createSlice({
     name: 'taskSlice',
     initialState,
     reducers: {
-
+        updateTasks(state){
+            state.isLoading = true;
+        },
+        updateTasksSuccess(state, action){
+            state.tasks = action.payload
+            state.isLoading = false
+        },
+        updateTasksError(state, action){
+            state.error = action.payload;
+            state.isLoading = false
+        },
+        addTask(state, action){
+            state.tasks.push(action.payload)
+        }
     }
 })
+
+export default tasksSlice.reducer

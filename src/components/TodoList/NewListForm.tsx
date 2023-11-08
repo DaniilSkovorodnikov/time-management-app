@@ -2,20 +2,23 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import './NewListForm.scss'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { addNewList } from '../../store/actionCreators/ProjectsActions';
+import { IList } from '../../models/IProject';
 
 export default function NewListForm({onHide}: ListFormProps) {
-    const {activeProjectId, projects} = useAppSelector(state => state.projectSlice)
+    const {activeProjectId, tasksLists} = useAppSelector(state => state.projectSlice)
     const dispatch = useAppDispatch()
     const {register, handleSubmit} = useForm<{name: string}>({
         mode: 'onBlur'
     });
    
     const onSubmit: SubmitHandler<{name: string}> = (data) => {
-        const activeProject = projects.find((project) => project.id === activeProjectId)
-        if(activeProject){
-            addNewList(dispatch, activeProject, data.name)
-            onHide() 
+        const newList: IList = {
+            name: data.name,
+            parentProjectId: activeProjectId,
+            id: tasksLists.length + 1
         }
+        addNewList(dispatch, newList)
+        onHide() 
     }
 
     return(

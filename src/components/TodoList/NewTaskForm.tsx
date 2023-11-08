@@ -3,24 +3,34 @@ import DatePicker from 'react-datepicker'
 import Select from 'react-select'
 import './NewTaskForm.scss'
 import datepickerIcon from '../../assets/icons/datepicker-icon.png'
-import { useAppSelector } from '../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { Task } from '../../store/reducers/TaskReducer'
+import { ITask } from '../../models/ITask'
+import { addTask } from '../../store/actionCreators/TasksActions'
+
+export type TaskForm = Omit<ITask, 'executionPeriod'> & {executionPeriod: Date}
 
 export default function NewTaskForm({onHide} : NewTaskFormProps) {
     const titleInputRef = useRef<HTMLInputElement>(null)
-    const {activeProjectId, activeSection} = useAppSelector(state => state.projectSlice)
+    const {activeProjectId, activeSectionId} = useAppSelector(state => state.projectSlice)
+    const {tasks} = useAppSelector(state => state.tasksSlice)
+    const dispatch = useAppDispatch()
     
-    const {control, register, handleSubmit, reset} = useForm<Task>({
+    const {control, register, handleSubmit, reset} = useForm<TaskForm>({
         mode: 'onBlur',
         defaultValues: {
             projectId: activeProjectId,
-            sectionName: activeSection
+            sectionId: activeSectionId
         }
     });
 
-    const onSubmit: SubmitHandler<Task> = (data) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<TaskForm> = (data) => {
+        const newTask: TaskForm = {
+            ...data,
+            id: tasks.length + 1
+        }
+        addTask(dispatch, newTask)
+        onHide()
     }
     
     useEffect(() => {

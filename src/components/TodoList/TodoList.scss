@@ -32,12 +32,11 @@
         width: 98%;
         margin-left: auto;
     }
-}
 
-.project{
     &__header{
         border-bottom: 1px solid #6b6a6a ;
         padding-bottom: 6px;
+        font-weight: 600;
     }
 
     &__addTask{

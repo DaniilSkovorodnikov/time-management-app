@@ -6,11 +6,13 @@ import { useEffect } from 'react';
 import { loadProjects } from './store/actionCreators/ProjectsActions';
 import { useAppDispatch } from './hooks/redux';
 import "react-datepicker/dist/react-datepicker.css";
+import { loadTasks } from './store/actionCreators/TasksActions';
 
 function App(){
   const dispatch = useAppDispatch();
   useEffect(() => {
-    loadProjects(dispatch)
+      loadProjects(dispatch)
+      loadTasks(dispatch)
   }, [dispatch])
 
   return (

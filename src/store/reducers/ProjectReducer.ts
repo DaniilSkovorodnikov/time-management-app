@@ -1,20 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IProject, TodayProject } from "../../models/IProject";
+import { IList, IProject, TodayProject } from "../../models/IProject";
 
 interface ProjectState{
     projects: IProject[],
+    tasksLists: IList[],
     isLoading: boolean,
     error: string,
     activeProjectId: number,
-    activeSection: string | null,
+    activeSectionId: number | null,
 }
 
 const initialState: ProjectState = {
     projects: [],
+    tasksLists: [],
     isLoading: false,
     error: '',
     activeProjectId: TodayProject.id,
-    activeSection: null
+    activeSectionId: null
 }
 
 export const projectSlice = createSlice({
@@ -25,7 +27,8 @@ export const projectSlice = createSlice({
             state.isLoading = true;
         },
         updateProjectsSuccess(state, action){
-            state.projects = action.payload;
+            state.projects = action.payload.projects;
+            state.tasksLists = action.payload.lists;
             state.isLoading = false
         },
         updateProjectsError(state, action){
@@ -39,21 +42,13 @@ export const projectSlice = createSlice({
         changeActiveProject(state, action){
             state.activeProjectId = action.payload
         },
-        addNewList(state, {payload}: {payload: AddListPayload}){
-            const activeProject = state.projects.find(project => project.id === payload.activeProjectId)
-            if(activeProject){
-                activeProject.lists = activeProject.lists ? [...activeProject.lists, payload.listName] : [payload.listName]
-            }
+        addNewList(state, action){         
+            state.tasksLists.push(action.payload)
         },
         changeActiveSection(state, action){
-            state.activeSection = action.payload
+            state.activeSectionId = action.payload
         }
     }
 });
 
 export default projectSlice.reducer;
-
-interface AddListPayload{
-    activeProjectId: number
-    listName: string
-}

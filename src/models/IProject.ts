@@ -2,7 +2,12 @@ export interface IProject{
     name: string,
     id: number,
     type: ProjectTypes,
-    lists?: string[]
+}
+
+export interface IList{
+    name: string,
+    id: number,
+    parentProjectId: number
 }
 
 export enum ProjectTypes{
