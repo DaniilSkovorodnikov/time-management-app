@@ -5,14 +5,16 @@ interface ProjectState{
     projects: IProject[],
     isLoading: boolean,
     error: string,
-    activeProjectId: number 
+    activeProjectId: number,
+    activeSection: string | null,
 }
 
 const initialState: ProjectState = {
     projects: [],
     isLoading: false,
     error: '',
-    activeProjectId: TodayProject.id
+    activeProjectId: TodayProject.id,
+    activeSection: null
 }
 
 export const projectSlice = createSlice({
@@ -42,6 +44,9 @@ export const projectSlice = createSlice({
             if(activeProject){
                 activeProject.lists = activeProject.lists ? [...activeProject.lists, payload.listName] : [payload.listName]
             }
+        },
+        changeActiveSection(state, action){
+            state.activeSection = action.payload
         }
     }
 });

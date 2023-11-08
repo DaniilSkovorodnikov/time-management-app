@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { useEffect } from 'react';
 import { loadProjects } from './store/actionCreators/ProjectsActions';
 import { useAppDispatch } from './hooks/redux';
+import "react-datepicker/dist/react-datepicker.css";
 
 function App(){
   const dispatch = useAppDispatch();

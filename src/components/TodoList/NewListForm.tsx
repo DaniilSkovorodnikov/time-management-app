@@ -6,7 +6,7 @@ import { addNewList } from '../../store/actionCreators/ProjectsActions';
 export default function NewListForm({onHide}: ListFormProps) {
     const {activeProjectId, projects} = useAppSelector(state => state.projectSlice)
     const dispatch = useAppDispatch()
-    const {register, handleSubmit, formState: {errors, isDirty, isValid}, reset} = useForm<{name: string}>({
+    const {register, handleSubmit} = useForm<{name: string}>({
         mode: 'onBlur'
     });
    
