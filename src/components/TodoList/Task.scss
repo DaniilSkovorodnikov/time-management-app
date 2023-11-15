@@ -1,0 +1,60 @@
+.task{
+    display: flex;
+    padding: 12px 0;
+    border-bottom: 1px solid #6b6a6a;
+
+    &__complete{
+        width: 16px;
+        height: 16px;
+    }
+
+    &__buttons{
+        margin-left: auto;
+        display: flex;
+        gap: 4px;
+    }
+
+    &__info{
+        margin-left: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    &__name{
+        
+    }
+
+    &__description{
+        color: gray;
+        font-size: 12px;
+    }
+
+    &__edit, &__delete{
+        width: 26px;
+        height: 22px;
+        padding: 3px 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+
+        &:hover{
+            transition: all 0.1s linear;
+            background-color: #363636;;
+        }
+    }
+
+    &__edit{
+
+    }
+
+    &__delete{
+
+    }
+
+    &__icon{
+        width: 20px;
+        height: 20px;
+    }
+}

@@ -26,16 +26,29 @@
       "name": "Надо сделать",
       "parentProjectId": 2,
       "id": 2
+    },
+    {
+      "name": "Сергей",
+      "parentProjectId": 2,
+      "id": 3
     }
   ],
   "tasks": [
     {
       "projectId": 1,
       "sectionId": null,
-      "name": "Прибраться",
-      "description": "Кто прочитал тот лох",
-      "executionPeriod": "2023-11-09T19:00:00.000Z",
+      "executionPeriod": "2023-11-16T18:15:57.000Z",
+      "name": "Надо сделать писюн из снега",
+      "description": "",
       "id": 1
+    },
+    {
+      "projectId": 2,
+      "sectionId": null,
+      "executionPeriod": "2023-11-15T19:07:16.000Z",
+      "name": "Съесть запас егора",
+      "description": "лоро",
+      "id": 2
     }
   ]
 }

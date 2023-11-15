@@ -3,6 +3,7 @@ import { IList, IProject, IncomingProject, ProjectTypes, TodayProject } from "..
 import { projectSlice } from "../../store/reducers/ProjectReducer";
 import NewListForm from "./NewListForm";
 import NewTaskForm from "./NewTaskForm";
+import Task from "./Task";
 import TaskList from "./TasksList";
 import './TodoList.scss'
 import { useMemo, useState, useEffect } from 'react';
@@ -23,6 +24,16 @@ export default function TodoList() {
 		return active
 	}, [activeProjectId, projects])
 
+	const projectTasks = useMemo(() => {
+		const todayDate = (new Date()).toISOString().split('T')[0]
+		return tasks.filter(task => 
+			task.projectId === activeProjectId || 
+			activeProjectId === TodayProject.id && task.executionPeriod.includes(todayDate) ||
+			activeProjectId === IncomingProject.id
+		)
+	},
+	[tasks, activeProjectId])
+
 	useEffect(() => {
 		setActiveTaskForm(false)
 	}, [activeProjectId])
@@ -36,8 +47,8 @@ export default function TodoList() {
 				</div>}
 			</div>
 			<ul>
-				{tasks.filter(task => task.projectId === activeProjectId && !task.sectionId).map(task => <li key={task.id}>
-					{task.name}
+				{projectTasks.filter(task => !task.sectionId || activeProjectId < 0).map(task => <li key={task.id}>
+					<Task task={task}/>
 				</li>)}
 			</ul>
 			{activeTaskForm && <NewTaskForm onHide={() => setActiveTaskForm(false)}/>}
@@ -45,7 +56,13 @@ export default function TodoList() {
 				dispatch(changeActiveSection(null))
 				setActiveTaskForm(true)
 				}}>Добавить задачу</button>}
-			{tasksLists.filter(list => list.parentProjectId === activeProjectId).map((list: IList) => <TaskList list={list} key={list.id}/>)}
+			{tasksLists
+				.filter(list => list.parentProjectId === activeProjectId)
+				.map((list: IList) => <TaskList
+					list={list}
+					tasks={projectTasks.filter(task => task.sectionId === list.id)}
+					key={list.id}
+				/>)}
 			{ newListFormActive && <NewListForm onHide={() => setNewListFormActive(false)}/>}
 		</div>
 	)

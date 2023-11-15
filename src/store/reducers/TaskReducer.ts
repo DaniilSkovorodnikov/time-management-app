@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ITask } from "../../models/ITask";
+import { TaskForm } from "../../components/TodoList/NewTaskForm";
 
 interface TasksState{
     tasks: ITask[],
@@ -30,6 +31,15 @@ export const tasksSlice = createSlice({
         },
         addTask(state, action){
             state.tasks.push(action.payload)
+        },
+        deleteTask(state, action){
+            state.tasks = state.tasks.filter(task => task.id !== action.payload)
+        },
+        editTask(state, {payload}: {payload: ITask}){
+            const copyTasks = [...state.tasks]
+            const taskIndex = copyTasks.findIndex(task => task.id === payload.id)
+            copyTasks[taskIndex] = payload;
+            state.tasks = copyTasks
         }
     }
 })

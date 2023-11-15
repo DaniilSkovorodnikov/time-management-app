@@ -10,6 +10,11 @@ export interface IList{
     parentProjectId: number
 }
 
+export interface ProjectOption{
+    label: string,
+    value: number
+}
+
 export enum ProjectTypes{
     Today,
     Incoming,

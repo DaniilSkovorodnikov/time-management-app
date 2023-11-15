@@ -1,37 +1,44 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import DatePicker from 'react-datepicker'
-import Select from 'react-select'
 import './NewTaskForm.scss'
 import datepickerIcon from '../../assets/icons/datepicker-icon.png'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { ITask } from '../../models/ITask'
-import { addTask } from '../../store/actionCreators/TasksActions'
+import { addTask, editTask } from '../../store/actionCreators/TasksActions'
+import { ProjectOption, TodayProject } from '../../models/IProject'
+import StyledSelect from '../UI/StyledSelect'
 
 export type TaskForm = Omit<ITask, 'executionPeriod'> & {executionPeriod: Date}
 
-export default function NewTaskForm({onHide} : NewTaskFormProps) {
+export default function NewTaskForm({onHide, defaultState, isEditMode} : NewTaskFormProps) {
     const titleInputRef = useRef<HTMLInputElement>(null)
-    const {activeProjectId, activeSectionId} = useAppSelector(state => state.projectSlice)
+    const {activeProjectId, activeSectionId, projects} = useAppSelector(state => state.projectSlice)
     const {tasks} = useAppSelector(state => state.tasksSlice)
     const dispatch = useAppDispatch()
     
-    const {control, register, handleSubmit, reset} = useForm<TaskForm>({
+    const {control, register, handleSubmit, reset, formState: {isValid}} = useForm<TaskForm>({
         mode: 'onBlur',
-        defaultValues: {
-            projectId: activeProjectId,
-            sectionId: activeSectionId
-        }
+        defaultValues: defaultState || {
+            projectId: activeProjectId > 0 ? activeProjectId : null,
+            sectionId: activeSectionId,
+            executionPeriod: activeProjectId === TodayProject.id ? new Date() : undefined
+        },
     });
 
     const onSubmit: SubmitHandler<TaskForm> = (data) => {
         const newTask: TaskForm = {
             ...data,
-            id: tasks.length + 1
+            id: isEditMode ? data.id : tasks.length + 1
         }
-        addTask(dispatch, newTask)
+        isEditMode ? editTask(dispatch, newTask) : addTask(dispatch, newTask)
         onHide()
     }
+
+    const projectOptions = useMemo<ProjectOption[]>(() => projects.map(project => ({
+        label: project.name,
+        value: project.id
+    })), [projects])
     
     useEffect(() => {
         if(titleInputRef.current){
@@ -57,29 +64,44 @@ export default function NewTaskForm({onHide} : NewTaskFormProps) {
                 {...register('description')}
             />
             <div className='taskForm__meta'>
-                <Controller
+                {activeProjectId !== TodayProject.id && <Controller
                     control={control}
+                    rules={{required: true}}
                     name='executionPeriod'
                     render={({field}) => <DatePicker 
                         onChange={(date) => field.onChange(date)}
                         selected={field.value}
                         className='taskForm__date'
                         placeholderText='Срок выполнения'
-                        required
                         showIcon
                         icon={<img src={datepickerIcon} style={{width: 16, height: 'auto', padding: 5}}/>}  
                     />}
-                />
-                {activeProjectId < 0 && <Select/>}
+                />}
+                {(activeProjectId < 0 || isEditMode) && <div className='taskForm__project'>
+                    <Controller
+                        control={control}
+                        name='projectId'
+                        render={({field}) => <StyledSelect<ProjectOption>
+                            options={projectOptions}
+                            onChange={(opt) => field.onChange(opt?.value)}
+                            value={projectOptions.find(opt => opt.value === field.value)}
+                            placeholder='Прикрепить к проекту'
+                        />}
+                    />
+                </div>}
             </div>
             <div className="taskForm__buttons">
                 <button className="taskForm__cancel" onClick={onHide}>Отменить</button>
-                <button className="taskForm__save" type='submit'>Добавить</button>
+                <button className="taskForm__save" type='submit' disabled={!isValid}>
+                    {isEditMode ? 'Сохранить' : 'Добавить'}
+                </button>
             </div>
         </form>
     )
 }
 
 interface NewTaskFormProps{
-    onHide: () => void
+    onHide: () => void,
+    defaultState?: TaskForm,
+    isEditMode?: boolean,
 }
