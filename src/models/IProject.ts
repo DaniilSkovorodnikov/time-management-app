@@ -15,6 +15,11 @@ export interface ProjectOption{
     value: number
 }
 
+export interface SectionOption{
+    label: string,
+    value: IList
+}
+
 export enum ProjectTypes{
     Today,
     Incoming,

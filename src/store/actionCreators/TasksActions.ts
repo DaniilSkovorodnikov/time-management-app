@@ -18,11 +18,11 @@ export async function loadTasks(dispatch: Dispatch){
 export async function addTask(dispatch: Dispatch, newTask: TaskForm) {
    try{
       dispatch(tasksSlice.actions.updateTasks())
-      await http.post<ITask>('/tasks', newTask);
       const task: ITask = {
          ...newTask,
-         executionPeriod: newTask.executionPeriod.toISOString()
+         executionPeriod: newTask.executionPeriod.toDateString()
       }
+      await http.post<ITask>('/tasks', task);
       dispatch(tasksSlice.actions.addTask(task))
    }
    catch(err){
@@ -45,8 +45,12 @@ export async function removeTask(dispatch: Dispatch, id: number, timeout: number
 export async function editTask(dispatch: Dispatch, task: TaskForm) {
    try{
       dispatch(tasksSlice.actions.updateTasks())
-      await http.patch<ITask>(`/tasks/${task.id}`, task)
-      dispatch(tasksSlice.actions.editTask({...task, executionPeriod: task.executionPeriod.toISOString()}))
+      const updatedTask: ITask = {
+         ...task,
+         executionPeriod: task.executionPeriod.toDateString()
+      }
+      await http.patch<ITask>(`/tasks/${task.id}`, updatedTask)
+      dispatch(tasksSlice.actions.editTask(updatedTask))
    }  
    catch(err){
       dispatch(tasksSlice.actions.updateTasksError(err))

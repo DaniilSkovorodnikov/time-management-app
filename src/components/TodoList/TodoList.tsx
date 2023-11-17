@@ -25,10 +25,10 @@ export default function TodoList() {
 	}, [activeProjectId, projects])
 
 	const projectTasks = useMemo(() => {
-		const todayDate = (new Date()).toISOString().split('T')[0]
+		const todayDate = (new Date()).toDateString()
 		return tasks.filter(task => 
 			task.projectId === activeProjectId || 
-			activeProjectId === TodayProject.id && task.executionPeriod.includes(todayDate) ||
+			activeProjectId === TodayProject.id && task.executionPeriod === todayDate ||
 			activeProjectId === IncomingProject.id
 		)
 	},

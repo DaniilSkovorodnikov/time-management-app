@@ -35,19 +35,19 @@
   ],
   "tasks": [
     {
-      "projectId": 1,
+      "projectId": 2,
       "sectionId": null,
-      "executionPeriod": "2023-11-16T18:15:57.000Z",
-      "name": "Надо сделать писюн из снега",
+      "executionPeriod": "Fri Nov 17 2023",
+      "name": "Съесть запас егора",
       "description": "",
       "id": 1
     },
     {
       "projectId": 2,
       "sectionId": null,
-      "executionPeriod": "2023-11-15T19:07:16.000Z",
-      "name": "Съесть запас егора",
-      "description": "лоро",
+      "executionPeriod": "Fri Nov 17 2023",
+      "name": "Надо сделать",
+      "description": "",
       "id": 2
     }
   ]
