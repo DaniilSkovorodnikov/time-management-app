@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker'
 import './NewTaskForm.scss'
 import datepickerIcon from '../../assets/icons/datepicker-icon.png'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form'
 import { ITask } from '../../models/ITask'
 import { addTask, editTask } from '../../store/actionCreators/TasksActions'
 import { ProjectOption, SectionOption, TodayProject } from '../../models/IProject'
@@ -26,6 +26,8 @@ export default function NewTaskForm({onHide, defaultState, isEditMode} : NewTask
             executionPeriod: activeProjectId === TodayProject.id ? new Date() : undefined
         },
     });
+    const projectId = useWatch({name: 'projectId', control})
+    const sectionId = useWatch({name: 'sectionId', control})
 
     const onSubmit: SubmitHandler<TaskForm> = (data) => {
         const newTask: TaskForm = {
@@ -45,7 +47,7 @@ export default function NewTaskForm({onHide, defaultState, isEditMode} : NewTask
         .filter(list => list.parentProjectId === selectedProject)
         .map(list => ({
             label: list.name,
-            value: list
+            value: list.id
     })), [tasksLists, selectedProject])
     
     useEffect(() => {
@@ -85,30 +87,28 @@ export default function NewTaskForm({onHide, defaultState, isEditMode} : NewTask
                     />}
                 />}
                 {(activeProjectId < 0 || isEditMode) && <div className='taskForm__project'>
-                    <Controller
-                        control={control}
-                        name='projectId'
-                        render={({field}) => <StyledSelect<ProjectOption>
-                            options={projectOptions}
+                    <div className='taskForm__field'>
+                        <label>Выберите проект</label>
+                        <StyledSelect<ProjectOption>
+                            options={[notSelectedOption, ...projectOptions]}
                             onChange={(opt) => {
-                                field.onChange(opt?.value)
+                                setValue('projectId', opt?.value)
                                 setValue('sectionId', null)
                                 setSelectedProject(opt?.value)
                             }}
-                            value={projectOptions.find(opt => opt.value === field.value)}
+                            value={projectOptions.find(opt => opt.value === projectId) || notSelectedOption}
                             placeholder='Прикрепить к проекту'
-                        />}
-                    />
-                    {selectedProject && <Controller
-                        control={control}
-                        name='sectionId'
-                        render={({field}) => <StyledSelect<SectionOption>
-                            options={sectionsOptions}
-                            onChange={(opt) => {field.onChange(opt?.value.id)}}
-                            value={sectionsOptions.find(opt => opt.value.id === field.value)}
-                            placeholder='Прикрепить к списку'
-                        />}
-                    />}
+                        />
+                    </div>
+                    {selectedProject&& sectionsOptions.length > 0 && <div className='taskForm__field'>
+                            <label>Выберите список</label>
+                            <StyledSelect<SectionOption>
+                                options={[notSelectedOption, ...sectionsOptions]}
+                                onChange={(opt) => {setValue('sectionId', opt?.value || null)}}
+                                value={sectionsOptions.find(opt => opt.value === sectionId) || notSelectedOption}
+                                placeholder='Прикрепить к списку'
+                            />
+                        </div>}
                 </div>}
             </div>
             <div className="taskForm__buttons">
@@ -125,4 +125,9 @@ interface NewTaskFormProps{
     onHide: () => void,
     defaultState?: TaskForm,
     isEditMode?: boolean,
+}
+
+const notSelectedOption: ProjectOption | SectionOption = {
+    label: 'Не выбран',
+    value: null
 }

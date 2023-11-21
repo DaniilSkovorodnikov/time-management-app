@@ -12,12 +12,12 @@ export interface IList{
 
 export interface ProjectOption{
     label: string,
-    value: number
+    value: number | null
 }
 
 export interface SectionOption{
     label: string,
-    value: IList
+    value: number | null
 }
 
 export enum ProjectTypes{

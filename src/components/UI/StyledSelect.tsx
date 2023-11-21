@@ -5,7 +5,7 @@ export default function StyledSelect<
     IsMulti extends boolean = false,
     Group extends GroupBase<Option> = GroupBase<Option>
 >(props: SelectProps<Option, IsMulti, Group>){
-
+    
     return <Select
         {...props}
         styles={{
