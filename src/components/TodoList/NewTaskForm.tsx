@@ -44,7 +44,7 @@ export default function NewTaskForm({onHide, defaultState, isEditMode} : NewTask
     })), [projects])
 
     const sectionsOptions = useMemo<SectionOption[]>(() => tasksLists
-        .filter(list => list.parentProjectId === selectedProject)
+        .filter(list => list.projectId === selectedProject)
         .map(list => ({
             label: list.name,
             value: list.id

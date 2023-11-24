@@ -13,11 +13,11 @@ import { projectSlice } from '../../store/reducers/ProjectReducer'
 export default function Sidebar() {
 	const {openedSidebar} = useAppSelector(state => state.layoutSlice)
 	const {projects} = useAppSelector(state => state.projectSlice)
-	const {changeModalVisibility} = layoutSlice.actions
 	const {changeActiveProject} = projectSlice.actions
 	const dispatch = useAppDispatch()
 
 	const [openedList, setOpenedList] = useState<boolean>(false);
+	const [openedAddProjectModal, setOpenedAppProjectModal] = useState<boolean>(false)
 
 	return (<div className='sidebar' style={{width: openedSidebar ? '260px' : '0px'}}>
 		<ul className='sidebar__sections'>
@@ -34,7 +34,7 @@ export default function Sidebar() {
 			<div className="projects__header">
 				<h2 className='projects__title'>Проекты</h2>
 				<div className='projects__buttons buttons'>
-					<button className='buttons__add' onClick={() => dispatch(changeModalVisibility())}/>
+					<button className='buttons__add' onClick={() => setOpenedAppProjectModal(true)}/>
 					<button 
 						className='buttons__roll button'
 						onClick={() => setOpenedList((prevState) => !prevState)}
@@ -56,8 +56,8 @@ export default function Sidebar() {
 				</li>)}
 			</ul>
 		</div>
-		<Modal>
-			<AddProjectForm/>
+		<Modal show={openedAddProjectModal} onHide={() => setOpenedAppProjectModal(false)}>
+			<AddProjectForm show={openedAddProjectModal} onHide={() => setOpenedAppProjectModal(false)}/>
 		</Modal>
 	</div>)
 }

@@ -1,0 +1,31 @@
+.editProject{
+    display: flex;
+    width: 100%;
+
+    &__save, &__cancel{
+        padding: 3px 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+
+        &:hover{
+            transition: all 0.1s linear;
+            background-color: #363636;;
+        }
+
+        img{
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    &__save{
+        margin-left: auto;
+
+        &:disabled{
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+}

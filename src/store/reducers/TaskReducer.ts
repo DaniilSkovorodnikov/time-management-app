@@ -40,6 +40,9 @@ export const tasksSlice = createSlice({
             const taskIndex = copyTasks.findIndex(task => task.id === payload.id)
             copyTasks[taskIndex] = payload;
             state.tasks = copyTasks
+        },
+        deleteTasksByProjectId(state, action){
+            state.tasks = state.tasks.filter(task => task.projectId !== action.payload)
         }
     }
 })

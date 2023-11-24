@@ -6,31 +6,21 @@
       "type": 2
     },
     {
-      "name": "Работа",
+      "name": "Хаги Ваги",
       "id": 2,
-      "type": 2
-    },
-    {
-      "name": "Станции, разъезды, платформы, остановочные пункты",
-      "id": 3,
       "type": 2
     }
   ],
   "lists": [
     {
       "name": "Учеба",
-      "parentProjectId": 1,
+      "projectId": 1,
       "id": 1
     },
     {
       "name": "Надо сделать",
-      "parentProjectId": 2,
+      "projectId": 2,
       "id": 2
-    },
-    {
-      "name": "Сергей",
-      "parentProjectId": 2,
-      "id": 3
     }
   ],
   "tasks": [

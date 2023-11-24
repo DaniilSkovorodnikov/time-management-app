@@ -8,28 +8,28 @@ import { useEffect } from "react";
 
 export type ProjectForm = Pick<IProject, 'name'>
 
-export default function AddProjectForm() {
+export default function AddProjectForm({show, onHide}: AddProjectFormProps) {
     const {register, handleSubmit, formState: {errors, isDirty, isValid}, reset} = useForm<ProjectForm>({
         mode: 'onBlur'
     });
-    const {openedModal} = useAppSelector(state => state.layoutSlice)
     const {projects} = useAppSelector(state => state.projectSlice)
-    const {changeModalVisibility} = layoutSlice.actions
     const dispatch = useAppDispatch();
-    const onSubmit: SubmitHandler<ProjectForm> = (data: ProjectForm) => {
+    const onSubmit: SubmitHandler<ProjectForm> = async(data: ProjectForm) => {
         const newProject: IProject = {
             ...data,
             id: projects.length + 1,
             type: ProjectTypes.Custom
         }
-        saveProjects(dispatch, newProject)
+        await saveProjects(dispatch, newProject)
+        onHide()
     }  
 
     useEffect(() => {
-        if(!openedModal){
+        if(!show){
             reset()
         }
-    }, [openedModal, reset])
+    }, [show, reset])
+
     return (
         <form className="projectForm" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="projectForm__title">Создать проект</h2>
@@ -39,9 +39,14 @@ export default function AddProjectForm() {
                 {!!errors.name && <p className="projectForm__error">Введите название проекта</p>}
             </div>
             <div className="projectForm__buttons">
-                <button className="projectForm__cancel" type='button' onClick={() => dispatch(changeModalVisibility())}>Отменить</button>
+                <button className="projectForm__cancel" type='button' onClick={() => onHide()}>Отменить</button>
                 <button className="projectForm__submit" type="submit" disabled={!isValid || !isDirty}>Сохранить</button>
             </div>
         </form>
     )
+}
+
+interface AddProjectFormProps{
+    show: boolean,
+    onHide: () => void
 }

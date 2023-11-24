@@ -14,7 +14,7 @@ export default function NewListForm({onHide}: ListFormProps) {
     const onSubmit: SubmitHandler<{name: string}> = (data) => {
         const newList: IList = {
             name: data.name,
-            parentProjectId: activeProjectId,
+            projectId: activeProjectId,
             id: tasksLists.length + 1
         }
         addNewList(dispatch, newList)

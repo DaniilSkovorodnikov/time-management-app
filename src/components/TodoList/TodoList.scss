@@ -56,4 +56,62 @@
             opacity: 1;
         }
     }
+
+    &__projectEdit, &__projectDelete{
+        width: 24px;
+        height: 24px;
+        padding: 3px 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+
+        &:hover{
+            transition: all 0.1s linear;
+            background-color: #363636;;
+        }
+
+        img{
+            width: 20px;
+            height: 20px;
+        }
+    }
+}
+
+.deleteProject{
+    padding: 30px 60px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    width: 110%;
+
+    &__title{
+        font-size: 22px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    &__buttons{
+        display: flex;
+        gap: 8px;
+        margin-top: 30px;
+    }
+
+    &__confirm, &__cancel{
+        background-color: crimson;
+        border-radius: 5px;
+        padding: 5px 10px;
+
+        &:hover{
+            opacity: 0.8;
+        }
+
+        &:active{
+            opacity: 1;
+        }
+    }
+
+    &__cancel{
+        background-color: #6b6a6a;
+        margin-left: auto;
+    }
 }

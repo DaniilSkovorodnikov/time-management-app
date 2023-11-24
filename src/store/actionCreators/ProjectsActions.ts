@@ -3,6 +3,8 @@ import { IList, IProject } from "../../models/IProject";
 import { projectSlice } from "../reducers/ProjectReducer";
 import { Dispatch } from "../store";
 import { layoutSlice } from "../reducers/LayoutReducer";
+import { ITask } from "../../models/ITask";
+import { tasksSlice } from "../reducers/TaskReducer";
 
 export async function loadProjects(dispatch: Dispatch){
  try{
@@ -21,7 +23,6 @@ export async function saveProjects(dispatch: Dispatch, project: IProject) {
       dispatch(projectSlice.actions.updateProjects())
       await http.post<IProject>('/projects', project);
       dispatch(projectSlice.actions.addProject(project))
-      dispatch(layoutSlice.actions.changeModalVisibility())
    }
    catch(err){
       dispatch(projectSlice.actions.updateProjectsError(err))
@@ -31,4 +32,15 @@ export async function saveProjects(dispatch: Dispatch, project: IProject) {
 export async function addNewList(dispatch: Dispatch, newList: IList) {
    dispatch(projectSlice.actions.addNewList(newList))
    await http.post<IList>(`/lists`, newList)
+}
+
+export async function editProject(dispatch: Dispatch, updatedProject: IProject) {
+   await http.patch<IProject>(`/projects/${updatedProject.id}`, updatedProject)
+   dispatch(projectSlice.actions.editProject(updatedProject))
+}
+
+export async function deleteProject(dispatch: Dispatch, projectId: number) {
+   await http.delete<number>(`/projects/${projectId}`)
+   dispatch(projectSlice.actions.deleteProject(projectId))
+   dispatch(tasksSlice.actions.deleteTasksByProjectId(projectId))
 }

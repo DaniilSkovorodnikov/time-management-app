@@ -7,7 +7,7 @@ export interface IProject{
 export interface IList{
     name: string,
     id: number,
-    parentProjectId: number
+    projectId: number
 }
 
 export interface ProjectOption{

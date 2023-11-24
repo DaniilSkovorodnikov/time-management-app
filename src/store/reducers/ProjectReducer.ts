@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IList, IProject, TodayProject } from "../../models/IProject";
+import { IList, IProject, IncomingProject, TodayProject } from "../../models/IProject";
 
 interface ProjectState{
     projects: IProject[],
@@ -47,6 +47,17 @@ export const projectSlice = createSlice({
         },
         changeActiveSection(state, action){
             state.activeSectionId = action.payload
+        },
+        editProject(state, action){
+            const projects = [...state.projects]
+            const currentProject = projects.findIndex(project => project.id === action.payload.id)
+            projects[currentProject] = action.payload
+            state.projects = projects
+        },
+        deleteProject(state, action){
+            state.projects = state.projects.filter(project => project.id !== action.payload)
+            state.tasksLists = state.tasksLists.filter(list => list.projectId !== action.payload)
+            state.activeProjectId = IncomingProject.id
         }
     }
 });
