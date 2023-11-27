@@ -2,8 +2,6 @@ import { http } from "../../http/axios";
 import { IList, IProject } from "../../models/IProject";
 import { projectSlice } from "../reducers/ProjectReducer";
 import { Dispatch } from "../store";
-import { layoutSlice } from "../reducers/LayoutReducer";
-import { ITask } from "../../models/ITask";
 import { tasksSlice } from "../reducers/TaskReducer";
 
 export async function loadProjects(dispatch: Dispatch){

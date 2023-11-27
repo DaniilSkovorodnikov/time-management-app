@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppDispatch } from "../../hooks/redux";
 import { IList } from "../../models/IProject";
 import { ITask } from "../../models/ITask";
 import { projectSlice } from "../../store/reducers/ProjectReducer";

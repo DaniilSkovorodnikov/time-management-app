@@ -3,7 +3,6 @@ import { IProject, ProjectTypes } from "../../models/IProject"
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { saveProjects } from "../../store/actionCreators/ProjectsActions";
 import './AddProjectForm.scss'
-import { layoutSlice } from "../../store/reducers/LayoutReducer";
 import { useEffect } from "react";
 
 export type ProjectForm = Pick<IProject, 'name'>

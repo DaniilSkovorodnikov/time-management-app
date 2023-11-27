@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ITask } from "../../models/ITask";
-import { TaskForm } from "../../components/TodoList/NewTaskForm";
 
 interface TasksState{
     tasks: ITask[],

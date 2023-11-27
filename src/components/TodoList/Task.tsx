@@ -4,7 +4,7 @@ import deleteIcon from '../../assets/icons/delete-icon.svg'
 import editIcon from '../../assets/icons/edit-icon.svg'
 import { removeTask } from "../../store/actionCreators/TasksActions"
 import { useAppDispatch, useAppSelector } from "../../hooks/redux"
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import NewTaskForm from "./NewTaskForm"
 
 export default function Task({task}: TaskProps) {

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import TodoList from "../TodoList/TodoList";
 import Kanban from "../Kanban/Kanban";
 import Sidebar from "./Sidebar";

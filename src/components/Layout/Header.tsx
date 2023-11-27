@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useAppDispatch } from '../../hooks/redux'
 import { layoutSlice } from '../../store/reducers/LayoutReducer'
 import './Header.scss'
 

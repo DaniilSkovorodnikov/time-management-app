@@ -63,9 +63,9 @@ export default function NewTaskForm({onHide, defaultState, isEditMode} : NewTask
     return(
         <form className="taskForm" onSubmit={handleSubmit(onSubmit)}>
             <input className="taskForm__input"
+                {...register('name', {required: true})}
                 placeholder='Название задачи'
                 ref={titleInputRef}
-                {...register('name', {required: true})}
             />
             <textarea 
                 className="taskForm__textArea" 
