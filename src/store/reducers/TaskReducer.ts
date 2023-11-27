@@ -42,6 +42,9 @@ export const tasksSlice = createSlice({
         },
         deleteTasksByProjectId(state, action){
             state.tasks = state.tasks.filter(task => task.projectId !== action.payload)
+        },
+        deleteTasksByListId(state, action){
+            state.tasks = state.tasks.filter(task => task.sectionId !== action.payload)
         }
     }
 })

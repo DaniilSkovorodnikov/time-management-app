@@ -1,26 +1,22 @@
 import { SubmitHandler, useForm } from "react-hook-form"
-import { ProjectForm } from "../Sidebar/AddProjectForm"
 import saveIcon from '../../assets/icons/save-icon.svg'
 import cancelIcon from '../../assets/icons/cancel-icon.svg'
-import './EditProjectForm.scss'
-import { IProject } from "../../models/IProject"
-import { editProject } from "../../store/actionCreators/ProjectsActions"
-import { useAppDispatch } from "../../hooks/redux"
+import './InlineEditNameForm.scss'
 
-export default function EditProjectForm({project, onCancel}: EditProjectFormProps) {
-    const dispatch = useAppDispatch()
-    const {register, handleSubmit, formState: {isValid}} = useForm<ProjectForm>({
+type FormValues = {
+    name: string
+}
+
+export default function InlineEditNameForm({defaultName, onCancel, asyncSubmit}: EditProjectFormProps) {
+    const {register, handleSubmit, formState: {isValid}} = useForm<FormValues>({
         defaultValues: {
-            name: project.name
+            name: defaultName
         }
     })
 
-    const onSubmit: SubmitHandler<ProjectForm> = (data) => {
-        const updatedProject: IProject = {
-            ...project,
-            ...data
-        }
-        editProject(dispatch, updatedProject)
+    const onSubmit: SubmitHandler<FormValues> = (data) => {
+        const updatedName: string = data.name
+        asyncSubmit(updatedName)
         onCancel()
     }
 
@@ -38,6 +34,7 @@ export default function EditProjectForm({project, onCancel}: EditProjectFormProp
 }
 
 interface EditProjectFormProps{
-    project: IProject,
-    onCancel: () => void
+    defaultName: string,
+    onCancel: () => void,
+    asyncSubmit: (updatedValue: string) => void 
 }

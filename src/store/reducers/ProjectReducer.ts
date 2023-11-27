@@ -58,7 +58,16 @@ export const projectSlice = createSlice({
             state.projects = state.projects.filter(project => project.id !== action.payload)
             state.tasksLists = state.tasksLists.filter(list => list.projectId !== action.payload)
             state.activeProjectId = IncomingProject.id
-        }
+        },
+        editList(state, action){
+            const lists = [...state.tasksLists]
+            const currentList = lists.findIndex(list => list.id === action.payload.id)
+            lists[currentList] = action.payload
+            state.tasksLists = lists
+        },
+        deleteList(state, action){
+            state.tasksLists = state.tasksLists.filter(list => list.id !== action.payload)
+        },
     }
 });
 

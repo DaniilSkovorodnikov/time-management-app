@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import './NewTaskForm.scss'
 import datepickerIcon from '../../assets/icons/datepicker-icon.png'
@@ -12,7 +12,6 @@ import StyledSelect from '../UI/StyledSelect'
 export type TaskForm = Omit<ITask, 'executionPeriod'> & {executionPeriod: Date}
 
 export default function NewTaskForm({onHide, defaultState, isEditMode} : NewTaskFormProps) {
-    const titleInputRef = useRef<HTMLInputElement>(null)
     const {activeProjectId, activeSectionId, projects, tasksLists} = useAppSelector(state => state.projectSlice)
     const {tasks} = useAppSelector(state => state.tasksSlice)
     const dispatch = useAppDispatch()
@@ -49,23 +48,17 @@ export default function NewTaskForm({onHide, defaultState, isEditMode} : NewTask
             label: list.name,
             value: list.id
     })), [tasksLists, selectedProject])
-    
-    useEffect(() => {
-        if(titleInputRef.current){
-            titleInputRef.current.focus()
-        }
-    }, [titleInputRef.current])
 
     useEffect(() => {
         reset()
-    }, [activeProjectId])
+    }, [activeProjectId, reset])
     
     return(
         <form className="taskForm" onSubmit={handleSubmit(onSubmit)}>
             <input className="taskForm__input"
-                {...register('name', {required: true})}
                 placeholder='Название задачи'
-                ref={titleInputRef}
+                {...register('name', {required: true})}
+                autoFocus
             />
             <textarea 
                 className="taskForm__textArea" 

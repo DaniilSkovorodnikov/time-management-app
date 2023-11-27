@@ -1,42 +1,32 @@
 {
   "projects": [
     {
-      "name": "Дом",
-      "id": 1,
-      "type": 2
-    },
-    {
       "name": "Хаги Ваги",
-      "id": 2,
+      "id": 1,
       "type": 2
     }
   ],
   "lists": [
     {
-      "name": "Учеба",
+      "name": "Съесть запас егора",
       "projectId": 1,
-      "id": 1
-    },
-    {
-      "name": "Надо сделать",
-      "projectId": 2,
       "id": 2
     }
   ],
   "tasks": [
     {
-      "projectId": 2,
+      "projectId": 1,
       "sectionId": null,
-      "executionPeriod": "Fri Nov 17 2023",
-      "name": "Съесть запас егора",
+      "executionPeriod": "Wed Nov 01 2023",
+      "name": "Съесть запас",
       "description": "",
       "id": 1
     },
     {
       "projectId": 1,
-      "sectionId": 1,
-      "executionPeriod": "Fri Nov 17 2023",
-      "name": "Надо сделать",
+      "sectionId": 2,
+      "executionPeriod": "Fri Nov 24 2023",
+      "name": "Сергей Александрович Карболин",
       "description": "",
       "id": 2
     }
