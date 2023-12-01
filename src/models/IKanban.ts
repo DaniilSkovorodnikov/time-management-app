@@ -3,7 +3,7 @@ export interface IBoard{
     id: number
 }
 
-export interface ISection{
+export interface ICard{
     name: string,
     id: number,
     boardId: number

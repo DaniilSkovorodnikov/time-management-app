@@ -21,7 +21,7 @@ export default function AddBoardForm({onHide}: AddBoardFormProps){
         <form className="addBoard" onSubmit={handleSubmit(onSubmit)}>
             <input className="addBoard" placeholder="Название доски" {...register('name', {required: true})}/>
             <div className="addBoard__buttons">
-                <button className="addBoard__submit action-btn" disabled={!isValid}>
+                <button type='submit' className="addBoard__submit action-btn" disabled={!isValid}>
                     <img src={submitIcon}/>
                 </button>
                 <button className="addBoard__cancel action-btn" onClick={onHide}>
