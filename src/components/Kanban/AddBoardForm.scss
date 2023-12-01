@@ -1,0 +1,11 @@
+.addBoard{
+    display: flex;
+    height: 30px;
+    align-items: center;
+
+    &__buttons{
+        margin-left: auto;
+        display: flex;
+        gap: 2px;
+    }
+}

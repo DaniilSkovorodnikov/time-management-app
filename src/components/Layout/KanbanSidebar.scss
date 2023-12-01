@@ -1,0 +1,53 @@
+@import '../../const.scss';
+
+.kanbanSidebar{
+    display: flex;
+    flex-direction: column;
+    padding: 18px 0;
+
+    &__add{
+      display: flex;
+      border-radius: 4px;
+      margin: 0 auto;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      padding: 4px 8px;
+
+
+      &:hover{
+        background-color: #333333;
+      }
+
+      img{
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    &__boards{
+      margin-top: 80px;
+    }
+
+    &__title{
+      color: #b3b3b3;
+      font-size: 18px;
+      margin-bottom: 16px;
+      margin-left: 24px;
+    }
+
+    &__board{
+      height: 40px;
+      padding-left: 24px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      white-space: nowrap;
+
+      &:hover{
+        transition: $hover-transition;
+        background-color: $hover-background;
+      }
+    }
+}

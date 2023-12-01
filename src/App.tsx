@@ -7,12 +7,15 @@ import { loadProjects } from './store/actionCreators/ProjectsActions';
 import { useAppDispatch } from './hooks/redux';
 import "react-datepicker/dist/react-datepicker.css";
 import { loadTasks } from './store/actionCreators/TasksActions';
+import { loadKanbanData } from './store/actionCreators/KanbanActions';
 
 function App(){
   const dispatch = useAppDispatch();
+  
   useEffect(() => {
       loadProjects(dispatch)
       loadTasks(dispatch)
+      loadKanbanData(dispatch)
   }, [dispatch])
 
   return (

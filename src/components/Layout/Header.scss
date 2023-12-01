@@ -6,7 +6,7 @@
     align-items: center;
     padding: 0 50px;
 
-    &__gamburger{
+    &__hamburger{
         width: 35px;
         height: 35px;
         background-image: url('../../assets/icons/hamburger-icon.svg');
@@ -19,5 +19,16 @@
         &:hover{
             background-color: #717171;
         }
+    }
+
+    &__navigation{
+        margin: 0 auto;
+        display: flex;
+        gap: 8px;
+    }
+
+    &__active{
+        text-decoration: underline;
+        text-underline-position: under;
     }
 }

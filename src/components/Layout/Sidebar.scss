@@ -4,7 +4,6 @@
     transition: width 0.25s ease-out;
     overflow-x: hidden;
     overflow-y: auto;
-    padding: 80px 0;
     max-height: calc(100vh - 50px);
     
     &__sections{
@@ -24,106 +23,4 @@
       border: 3px solid rgb(134, 134, 134);  /* padding вокруг плашки */
     }
     
-}
-
-.section, .projects__item{
-  max-width: 100%;
-  overflow-x: hidden;
-  padding: 10px 0 10px 15%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: nowrap;
-  transition: $hover-transition;
-  cursor: pointer;
-
-  &:hover{
-    background-color: $hover-background;
-  }
-}
-
-.section{
-  &__icon{
-    width: 20px;
-    height: 20px;
-  }
-
-  &__title{
-    white-space: nowrap;
-  }
-}
-
-.projects{
- margin-top: 20px;
-
-  &__header{
-    padding: 0 10%;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
-
-    &:hover{
-      transition: $hover-transition;
-      background-color: $hover-background;
-    }
-  }
-
-  &__title{
-    color: $text-gray;
-    font-size: inherit;
-  }
-
-  &__list{
-    overflow: hidden;
-    transition: max-height 0.6s cubic-bezier(.4,0,.2,1) ;
-  }
-
-  &__item{
-    white-space: nowrap;
-  }
-}
-
-.buttons{
-  display: flex;
-  gap: 10px;
-  
-  &__add{
-    width: 24px;
-    height: 24px;
-    background: url('../../assets/icons/plus-icon.svg') no-repeat;
-    background-size: 20px 20px;
-    background-position: 50% 50%;
-    border-radius: 4px;
-
-    &:hover{
-      background-color: #292929;
-    }
-  }
-
-  &__roll{
-    width: 24px;
-    height: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 4px;
-
-    &:hover{
-      background-color: #292929;
-    }
-  }
-}
-
-.button{
-  &__arrow{
-    width: 13px;
-    height: 13px;
-    transition: rotate 0.15s linear;
-  }
-}
-
-.active>.section{
-  background-color: $hover-background;
 }

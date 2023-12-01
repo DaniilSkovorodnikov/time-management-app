@@ -30,5 +30,18 @@
       "description": "",
       "id": 2
     }
+  ],
+  "boards": [
+    {
+      "name": "Кто-то пидор",
+      "id": 1
+    }
+  ],
+  "sections": [
+    {
+      "boardId": 1,
+      "name": "Кто-то пидор",
+      "id": 1
+    }
   ]
 }
