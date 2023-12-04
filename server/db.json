@@ -42,6 +42,33 @@
       "boardId": 1,
       "name": "Надо сделать",
       "id": 1
+    },
+    {
+      "boardId": 1,
+      "name": "gfg",
+      "id": 2
+    },
+    {
+      "boardId": 1,
+      "name": "2312",
+      "id": 3
+    }
+  ],
+  "kanbanTasks": [
+    {
+      "cardId": 1,
+      "name": "Надо сделать",
+      "id": 1
+    },
+    {
+      "cardId": 2,
+      "name": "hgj",
+      "id": 2
+    },
+    {
+      "cardId": 1,
+      "name": "kj",
+      "id": 3
     }
   ]
 }

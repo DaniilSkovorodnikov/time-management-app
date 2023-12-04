@@ -1,0 +1,15 @@
+.kanbanTaskForm{
+    display: flex;
+    align-items: center;
+
+    &__input{
+        height: 30px;
+    }
+
+    &__buttons{
+        display: flex;
+        margin-left: auto;
+        gap: 2px;
+        align-items: center;
+    }
+}

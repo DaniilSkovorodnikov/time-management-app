@@ -3,6 +3,7 @@ import { useAppSelector } from '../../hooks/redux'
 import { IBoard, ICard } from '../../models/IKanban'
 import './Kanban.scss'
 import AddCardForm from './AddCardForm'
+import KanbanCard from './KanbanCard'
 
 export default function Kanban(){
     const {boards, activeBoardId, cards} = useAppSelector(state => state.kanbanSlice)
@@ -14,11 +15,9 @@ export default function Kanban(){
         return <></>
     }
     return <div className="kanban">
-        <h2 className='kanban__title'>{activeBoard.name}</h2>
+        <h1 className='kanban__title'>{activeBoard.name}</h1>
         <div className='kanban__container' style={{width: `calc(100vw - ${openedSidebar ? '260px' : '0px'} - 80px)`}}>
-            {boardCards.map((card) => <div className='kanban__card' key={card.id}>
-                {card.name}
-            </div>)}
+            {boardCards.map((card) => <KanbanCard card={card} key={card.id}/>)}
             <AddCardForm/>
         </div>
     </div>

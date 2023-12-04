@@ -8,3 +8,9 @@ export interface ICard{
     id: number,
     boardId: number
 }
+
+export interface IKanbanTask{
+    name: string,
+    cardId: number,
+    id: number
+}

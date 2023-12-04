@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { IBoard, ICard } from "../../models/IKanban"
+import { IBoard, ICard, IKanbanTask } from "../../models/IKanban"
 
 interface KanbanState{
     boards: IBoard[],
     activeBoardId?: number,
-    cards: ICard[]
+    cards: ICard[],
+    tasks: IKanbanTask[]
 }
 
 const initialState: KanbanState = {
     boards: [],
-    cards: []
+    cards: [],
+    tasks: []
 }
 
 export const kanbanSlice = createSlice({
@@ -30,6 +32,12 @@ export const kanbanSlice = createSlice({
         },
         addCard(state, action){
             state.cards.push(action.payload)
+        },
+        updateTasks(state, action){
+            state.tasks = action.payload
+        },
+        addTask(state, action){
+            state.tasks.push(action.payload)
         }
     }
 })
