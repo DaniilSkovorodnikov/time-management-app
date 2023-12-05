@@ -6,8 +6,8 @@ interface ProjectState{
     tasksLists: IList[],
     isLoading: boolean,
     error: string,
-    activeProjectId: number,
-    activeSectionId: number | null,
+    activeProjectId: string,
+    activeSectionId: string | null,
 }
 
 const initialState: ProjectState = {

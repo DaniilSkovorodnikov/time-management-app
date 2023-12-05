@@ -6,21 +6,20 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form'
 import { ITask } from '../../models/ITask'
 import { addTask, editTask } from '../../store/actionCreators/TasksActions'
-import { ProjectOption, SectionOption, TodayProject } from '../../models/IProject'
+import { IncomingProject, ProjectOption, SectionOption, TodayProject } from '../../models/IProject'
 import StyledSelect from '../UI/StyledSelect'
 
 export type TaskForm = Omit<ITask, 'executionPeriod'> & {executionPeriod: Date}
 
 export default function NewTaskForm({onHide, defaultState, isEditMode} : NewTaskFormProps) {
     const {activeProjectId, activeSectionId, projects, tasksLists} = useAppSelector(state => state.projectSlice)
-    const {tasks} = useAppSelector(state => state.tasksSlice)
     const dispatch = useAppDispatch()
-    const [selectedProject, setSelectedProject] = useState<number | null | undefined>(defaultState?.projectId)
+    const [selectedProject, setSelectedProject] = useState<string | null | undefined>(defaultState?.projectId)
 
     const {control, register, handleSubmit, reset, formState: {isValid}, setValue} = useForm<TaskForm>({
         mode: 'onBlur',
         defaultValues: defaultState || {
-            projectId: activeProjectId > 0 ? activeProjectId : null,
+            projectId: ![TodayProject.id, IncomingProject.id].includes(activeProjectId) ? activeProjectId : null,
             sectionId: activeSectionId,
             executionPeriod: activeProjectId === TodayProject.id ? new Date() : undefined
         },
@@ -29,11 +28,7 @@ export default function NewTaskForm({onHide, defaultState, isEditMode} : NewTask
     const sectionId = useWatch({name: 'sectionId', control})
 
     const onSubmit: SubmitHandler<TaskForm> = (data) => {
-        const newTask: TaskForm = {
-            ...data,
-            id: isEditMode ? data.id : tasks.length + 1
-        }
-        isEditMode ? editTask(dispatch, newTask) : addTask(dispatch, newTask)
+        isEditMode ? editTask(dispatch, data) : addTask(dispatch, data)
         onHide()
     }
 
@@ -79,7 +74,7 @@ export default function NewTaskForm({onHide, defaultState, isEditMode} : NewTask
                         icon={<img src={datepickerIcon} style={{width: 16, height: 'auto', padding: 5}}/>}  
                     />}
                 />}
-                {(activeProjectId < 0 || isEditMode) && <div className='taskForm__project'>
+                {([TodayProject.id, IncomingProject.id].includes(activeProjectId) || isEditMode) && <div className='taskForm__project'>
                     <div className='taskForm__field'>
                         <label>Выберите проект</label>
                         <StyledSelect<ProjectOption>

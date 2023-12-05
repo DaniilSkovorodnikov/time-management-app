@@ -1,8 +1,8 @@
 export interface ITask{
     name: string,
     description: string,
-    projectId: number | null | undefined,
-    sectionId: number | null,
+    projectId: string | null | undefined,
+    sectionId: string | null,
     executionPeriod: string,
-    id: number
+    id: string
 }

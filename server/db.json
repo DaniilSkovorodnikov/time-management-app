@@ -57,17 +57,20 @@
   "kanbanTasks": [
     {
       "cardId": 1,
-      "name": "Надо сделать",
+      "orderInCard": 1,
+      "name": "Таска",
       "id": 1
     },
     {
       "cardId": 2,
-      "name": "hgj",
+      "orderInCard": 0,
+      "name": "Таска2",
       "id": 2
     },
     {
       "cardId": 1,
-      "name": "kj",
+      "orderInCard": 0,
+      "name": "Таска3",
       "id": 3
     }
   ]

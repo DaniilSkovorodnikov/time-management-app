@@ -14,9 +14,8 @@ export default function AddProjectForm({show, onHide}: AddProjectFormProps) {
     const {projects} = useAppSelector(state => state.projectSlice)
     const dispatch = useAppDispatch();
     const onSubmit: SubmitHandler<ProjectForm> = async(data: ProjectForm) => {
-        const newProject: IProject = {
+        const newProject: Omit<IProject, 'id'> = {
             ...data,
-            id: projects.length + 1,
             type: ProjectTypes.Custom
         }
         await saveProjects(dispatch, newProject)

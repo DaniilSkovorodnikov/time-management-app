@@ -6,16 +6,14 @@ import cancelIcon from '../../assets/icons/cancel-icon.svg'
 import './AddTaskForm.scss'
 import { addKanbanTask } from "../../store/actionCreators/KanbanActions";
 
-export interface KanbanTaskForm{
-    name: string,
-    cardId: number
-}
+export type KanbanTaskForm = Omit<IKanbanTask, 'id'>
 
-export default function AddTaskForm({cardId, onHide}: AddTaskFormProps){
+export default function AddTaskForm({cardId, cardTasksLength, onHide}: AddTaskFormProps){
     const dispatch = useAppDispatch();
     const {register, handleSubmit, formState: {isValid}} = useForm<KanbanTaskForm>({
         defaultValues: {
-            cardId
+            cardId,
+            orderInCard: cardTasksLength
         }
     })
 
@@ -45,5 +43,6 @@ export default function AddTaskForm({cardId, onHide}: AddTaskFormProps){
 
 interface AddTaskFormProps{
     cardId: number,
+    cardTasksLength: number,
     onHide: () => void
 }

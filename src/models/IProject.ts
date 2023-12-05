@@ -1,23 +1,23 @@
 export interface IProject{
     name: string,
-    id: number,
+    id: string,
     type: ProjectTypes,
 }
 
 export interface IList{
     name: string,
-    id: number,
-    projectId: number
+    id: string,
+    projectId: string
 }
 
 export interface ProjectOption{
     label: string,
-    value: number | null
+    value: string | null
 }
 
 export interface SectionOption{
     label: string,
-    value: number | null
+    value: string | null
 }
 
 export enum ProjectTypes{
@@ -28,12 +28,12 @@ export enum ProjectTypes{
 
 export const TodayProject: IProject = {
     name: 'Сегодня',
-    id: -1,
+    id: '-1',
     type: ProjectTypes.Today
 }
 
 export const IncomingProject: IProject = {
     name: 'Все задачи',
-    id: -2,
+    id: '-2',
     type: ProjectTypes.Incoming
 }

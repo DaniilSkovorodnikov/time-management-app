@@ -1,4 +1,5 @@
 import { TaskForm } from "../../components/TodoList/NewTaskForm";
+import { addToFirestoreDocument, deleteFromFirestoreDocument, getFirestoreDocument, updateFirestoreDocument } from "../../firebase";
 import { http } from "../../http/axios";
 import { ITask } from "../../models/ITask";
 import { tasksSlice } from "../reducers/TaskReducer";
@@ -7,7 +8,7 @@ import { Dispatch } from "../store";
 export async function loadTasks(dispatch: Dispatch){
  try{
     dispatch(tasksSlice.actions.updateTasks())
-    const tasks: ITask[] = (await http.get<ITask[]>('/tasks')).data;
+    const tasks: ITask[] = await getFirestoreDocument<ITask>('tasks')
     dispatch(tasksSlice.actions.updateTasksSuccess(tasks))
  }
  catch(err){
@@ -22,17 +23,17 @@ export async function addTask(dispatch: Dispatch, newTask: TaskForm) {
          ...newTask,
          executionPeriod: newTask.executionPeriod.toDateString()
       }
-      await http.post<ITask>('/tasks', task);
-      dispatch(tasksSlice.actions.addTask(task))
+      const taskId = await addToFirestoreDocument<ITask>('tasks', task)
+      dispatch(tasksSlice.actions.addTask(({...task, id: taskId})))
    }
    catch(err){
       dispatch(tasksSlice.actions.updateTasksError(err))
    }
 }
 
-export async function removeTask(dispatch: Dispatch, id: number, timeout: number) {
+export async function removeTask(dispatch: Dispatch, id: string, timeout: number) {
    try{
-      await http.delete<ITask>(`/tasks/${id}`)
+      await deleteFromFirestoreDocument('tasks', id)
       setTimeout(() => {
          dispatch(tasksSlice.actions.deleteTask(id))
       }, timeout)
@@ -49,7 +50,7 @@ export async function editTask(dispatch: Dispatch, task: TaskForm) {
          ...task,
          executionPeriod: task.executionPeriod.toDateString()
       }
-      await http.patch<ITask>(`/tasks/${task.id}`, updatedTask)
+      await updateFirestoreDocument('tasks', task.id, updatedTask)
       dispatch(tasksSlice.actions.editTask(updatedTask))
    }  
    catch(err){

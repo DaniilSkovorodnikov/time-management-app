@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { IBoard, ICard, IKanbanTask } from "../../models/IKanban"
+import { IBoard, ICard, IKanbanTask, TaskDragProps } from "../../models/IKanban"
 
 interface KanbanState{
     boards: IBoard[],
@@ -38,6 +38,10 @@ export const kanbanSlice = createSlice({
         },
         addTask(state, action){
             state.tasks.push(action.payload)
+        },
+        changeTaskRelative(state, action: {payload: IKanbanTask[], type: string}){
+            const updatedTasks = action.payload
+            state.tasks = [...state.tasks.filter(task => updatedTasks.every(updatedTask => task.id !== updatedTask.id)), ...updatedTasks]
         }
     }
 })
