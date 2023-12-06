@@ -33,5 +33,11 @@ export async function addKanbanTask(dispatch: Dispatch, newTask: KanbanTaskForm)
 }
 
 export async function saveKanbanState(tasks: IKanbanTask[]) {
-    Promise.all(tasks.map(task => {updateFirestoreDocument('kanbanTasks', task.id, task)}))
+    Promise.all(tasks.map(task => updateFirestoreDocument('kanbanTasks', task.id, task)))
+}
+
+export async function changeCardsOrder(dispatch: Dispatch, sourceCard: ICard, destinationCard: ICard) {
+    dispatch(kanbanSlice.actions.changeCardOrder({sourceCard, destinationCard}))
+    updateFirestoreDocument<ICard>('cards', sourceCard.id, sourceCard)
+    updateFirestoreDocument<ICard>('cards', destinationCard.id, destinationCard)
 }

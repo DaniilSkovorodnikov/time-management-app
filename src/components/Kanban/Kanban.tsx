@@ -14,7 +14,9 @@ export default function Kanban(){
     const dispatch = useAppDispatch();
     const {changeTaskRelative} = kanbanSlice.actions;
     const activeBoard = useMemo<IBoard>(() => boards.find(board => board.id === activeBoardId) as IBoard, [activeBoardId, boards]);
-    const boardCards = useMemo<ICard[]>(() => cards.filter(card => card.boardId === activeBoardId), [activeBoardId, cards]) ;
+    const boardCards = useMemo<ICard[]>(() => cards
+    .filter(card => card.boardId === activeBoardId)
+    .sort((card1, card2) => card1.orderInBoard - card2.orderInBoard), [activeBoardId, cards]) ;
 
     const handleDrag: OnDragEndResponder = (result) => {
         let sourceTask = tasks.find(task => task.id === result.draggableId);
@@ -55,8 +57,8 @@ export default function Kanban(){
             <div className="kanban">
                 <h1 className='kanban__title'>{activeBoard.name}</h1>
                 <div className='kanban__container' style={{width: `calc(100vw - ${openedSidebar ? '260px' : '0px'} - 80px)`}}>
-                    {boardCards.map((card) => <KanbanCard card={card} key={card.id}/>)}
-                    <AddCardForm/>
+                    {boardCards.map((card) => <KanbanCard card={card} key={card.id} boardCards={boardCards}/>)}
+                    <AddCardForm boardCardsLength={boardCards.length}/>
                 </div>
             </div>
         </DragDropContext>

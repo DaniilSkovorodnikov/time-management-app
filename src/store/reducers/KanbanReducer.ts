@@ -33,6 +33,25 @@ export const kanbanSlice = createSlice({
         addCard(state, action){
             state.cards.push(action.payload)
         },
+        editCard(state, {payload}){
+            const cardIndex = state.cards.findIndex(card => card.id === payload.id)
+            if(cardIndex >= 0){
+                const cardsCopy = [...state.cards]
+                cardsCopy[cardIndex] = payload
+                state.cards = cardsCopy
+            }
+        },
+        changeCardOrder(state, {payload}){
+            const sourceCardIndex = state.cards.findIndex(card => card.id === payload.sourceCard.id)
+            const destinationCardIndex = state.cards.findIndex(card => card.id === payload.destinationCard.id)
+            if(sourceCardIndex >= 0 && destinationCardIndex >= 0){
+                const cardsCopy = [...state.cards]
+                cardsCopy[sourceCardIndex] = payload.sourceCard
+                cardsCopy[destinationCardIndex] = payload.destinationCard
+                state.cards = cardsCopy
+            }
+
+        },
         updateTasks(state, action){
             state.tasks = action.payload
         },

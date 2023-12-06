@@ -6,7 +6,8 @@ export interface IBoard{
 export interface ICard{
     name: string,
     id: string,
-    boardId: string
+    boardId: string,
+    orderInBoard: number
 }
 
 export interface IKanbanTask{

@@ -20,6 +20,20 @@
         display: flex;
         gap: 2px;
     }
+
+    &__toRight, &__toLeft{
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    &__toLeft{
+        margin-right: 2px;
+    }
+
+    &__toRight{
+        rotate: 180deg;
+        margin-left: 2px;
+    }
 }
 
 .action-btn.hover-override:hover{
