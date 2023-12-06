@@ -15,6 +15,7 @@ export default function AddBoardForm({onHide}: AddBoardFormProps){
 
     const onSubmit: SubmitHandler<AddBoardForm> = (data) => {
         addBoard(dispatch, data)
+        onHide()
     }
 
     return (

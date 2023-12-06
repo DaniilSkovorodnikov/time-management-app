@@ -3,7 +3,7 @@ import { IBoard, ICard, IKanbanTask, TaskDragProps } from "../../models/IKanban"
 
 interface KanbanState{
     boards: IBoard[],
-    activeBoardId?: number,
+    activeBoardId?: string,
     cards: ICard[],
     tasks: IKanbanTask[]
 }

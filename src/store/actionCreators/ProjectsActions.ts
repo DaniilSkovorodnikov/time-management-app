@@ -1,10 +1,7 @@
-import { http } from "../../http/axios";
 import { IList, IProject } from "../../models/IProject";
 import { projectSlice } from "../reducers/ProjectReducer";
 import { Dispatch } from "../store";
 import { tasksSlice } from "../reducers/TaskReducer";
-import { ITask } from "../../models/ITask";
-import { DocumentData, addDoc, collection, getDoc } from "firebase/firestore";
 import { addToFirestoreDocument, db, deleteFromFirestoreDocument, getFirestoreDocument, updateFirestoreDocument } from "../../firebase";
 
 export async function loadProjects(dispatch: Dispatch){
@@ -41,7 +38,11 @@ export async function editProject(dispatch: Dispatch, updatedProject: IProject) 
 }
 
 export async function deleteProject(dispatch: Dispatch, projectId: string) {
-   deleteFromFirestoreDocument('projects', projectId)
+   await deleteFromFirestoreDocument('projects', projectId);
+   ['lists', 'tasks'].forEach(async(docName) => {
+      const entityToDelete = await db.collection(docName).where('projectId', '==', projectId).get().then(snapshot => snapshot.docs);
+      await Promise.all(entityToDelete.map(doc => deleteFromFirestoreDocument(docName, doc.id)))
+   })
    dispatch(projectSlice.actions.deleteProject(projectId))
    dispatch(tasksSlice.actions.deleteTasksByProjectId(projectId))
 }
@@ -51,9 +52,10 @@ export async function editList(dispatch: Dispatch, updatedList: IList) {
    dispatch(projectSlice.actions.editList(updatedList))
 }
 
-export async function deleteList(dispatch: Dispatch, listId: string, tasksToDelete: ITask[]) {
+export async function deleteList(dispatch: Dispatch, listId: string) {
    deleteFromFirestoreDocument('lists', listId)
-   // await Promise.all(tasksToDelete.map(task => http.delete(`/tasks/${task.id}`)))
+   const tasksToDelete = await db.collection('tasks').where('sectionId', '==', listId).get().then(snapshot => snapshot.docs)
+   await Promise.all(tasksToDelete.map(task => deleteFromFirestoreDocument('tasks', task.id)))
    dispatch(projectSlice.actions.deleteList(listId))
    dispatch(tasksSlice.actions.deleteTasksByListId(listId))
 }

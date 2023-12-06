@@ -54,7 +54,7 @@ export default function TaskList({list, tasks}: TaskListProps){
             title='Удалить раздел?'
             show={openedDeleteListModal}
             onHide={() => setOpenedDeleteListModal(false)}
-            onConfirm={() => deleteList(dispatch, list.id, tasks)}
+            onConfirm={() => deleteList(dispatch, list.id)}
         />
     </div>
     )

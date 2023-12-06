@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
+import { useAppDispatch } from "../../hooks/redux";
 import { IKanbanTask } from "../../models/IKanban";
 import submitIcon from '../../assets/icons/save-icon.svg'
 import cancelIcon from '../../assets/icons/cancel-icon.svg'
@@ -42,7 +42,7 @@ export default function AddTaskForm({cardId, cardTasksLength, onHide}: AddTaskFo
 }
 
 interface AddTaskFormProps{
-    cardId: number,
+    cardId: string,
     cardTasksLength: number,
     onHide: () => void
 }

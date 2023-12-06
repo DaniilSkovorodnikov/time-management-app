@@ -17,9 +17,9 @@ export default function Kanban(){
     const boardCards = useMemo<ICard[]>(() => cards.filter(card => card.boardId === activeBoardId), [activeBoardId, cards]) ;
 
     const handleDrag: OnDragEndResponder = (result) => {
-        let sourceTask = tasks.find(task => task.id === +result.draggableId);
+        let sourceTask = tasks.find(task => task.id === result.draggableId);
         sourceTask = sourceTask ? {...sourceTask} : undefined
-        const destinationCard = cards.find(card => result.destination?.droppableId && card.id === +result.destination.droppableId);
+        const destinationCard = cards.find(card => result.destination?.droppableId && card.id === result.destination.droppableId);
         const destinationTaskIndex = result.destination?.index ?? -1;
         
         if(sourceTask && destinationCard && destinationTaskIndex !== -1){

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 
 export interface CardForm{
     name: string,
-    boardId: number
+    boardId: string
 }
 
 export default function AddCardForm() {

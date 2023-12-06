@@ -6,7 +6,7 @@ import { http } from "../../http/axios";
 import { IBoard, ICard, IKanbanTask } from "../../models/IKanban";
 import { kanbanSlice } from "../reducers/KanbanReducer";
 import { Dispatch } from "../store";
-import { getFirestoreDocument } from "../../firebase";
+import { addToFirestoreDocument, getFirestoreDocument, updateFirestoreDocument } from "../../firebase";
 
 export async function loadKanbanData(dispatch: Dispatch) {
     const boards: IBoard[] = await getFirestoreDocument<IBoard>('boards')
@@ -18,22 +18,20 @@ export async function loadKanbanData(dispatch: Dispatch) {
 }
 
 export async function addBoard(dispatch: Dispatch, newBoard: AddBoardForm) {
-    const board = (await http.post<IBoard>('/boards', newBoard)).data
-    dispatch(kanbanSlice.actions.addBoard(board))
+    const boardId = await addToFirestoreDocument<IBoard>('boards', newBoard)
+    dispatch(kanbanSlice.actions.addBoard({...newBoard, id: boardId}))
 }
 
 export async function addCard(dispatch: Dispatch, newCard: CardForm) {
-    const card = (await http.post<ICard>('/cards', newCard)).data
-    dispatch(kanbanSlice.actions.addCard(card))
+    const cardId = await addToFirestoreDocument<ICard>('cards', newCard)
+    dispatch(kanbanSlice.actions.addCard({...newCard, id: cardId}))
 }
 
 export async function addKanbanTask(dispatch: Dispatch, newTask: KanbanTaskForm) {
-    const task = (await http.post<IKanbanTask>('/kanbanTasks', newTask)).data
-    dispatch(kanbanSlice.actions.addTask(task))
+    const taskId = await addToFirestoreDocument<IKanbanTask>('kanbanTasks', newTask)
+    dispatch(kanbanSlice.actions.addTask({...newTask, id: taskId}))
 }
 
 export async function saveKanbanState(tasks: IKanbanTask[]) {
-    axios.all(tasks.map(task => {
-        http.put(`/kanbanTasks/${task.id}`, task)
-    }))
+    Promise.all(tasks.map(task => {updateFirestoreDocument('kanbanTasks', task.id, task)}))
 }
