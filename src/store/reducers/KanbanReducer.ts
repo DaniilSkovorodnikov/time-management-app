@@ -52,6 +52,14 @@ export const kanbanSlice = createSlice({
             }
 
         },
+        deleteCard(state, {payload}) {
+            const updatedCards: ICard[] = payload.updatedCards
+            state.cards = [
+                ...state.cards.filter(card => card.id !== payload.deletedCardId && updatedCards.every(updatedCard => card.id !== updatedCard.id)),
+                ...updatedCards
+            ]
+            state.tasks = state.tasks.filter(task => task.cardId !== payload.deletedCardId)
+        },
         updateTasks(state, action){
             state.tasks = action.payload
         },
@@ -61,6 +69,21 @@ export const kanbanSlice = createSlice({
         changeTaskRelative(state, action: {payload: IKanbanTask[], type: string}){
             const updatedTasks = action.payload
             state.tasks = [...state.tasks.filter(task => updatedTasks.every(updatedTask => task.id !== updatedTask.id)), ...updatedTasks]
+        },
+        editTask(state, {payload}){
+            const taskIndex = state.tasks.findIndex(task => task.id === payload.id)
+            if(taskIndex >= 0){
+                const tasksCopy = [...state.tasks]
+                tasksCopy[taskIndex] = payload
+                state.tasks = tasksCopy
+            }
+        },
+        deleteTask(state, {payload}){
+            const updatedTasks: IKanbanTask[] = payload.updatedTasks
+            state.tasks = [
+                ...state.tasks.filter(task => task.id !== payload.deletedTasksId && updatedTasks.every(updatedTask => task.id !== updatedTask.id)), 
+                ...payload.updatedTasks
+            ]
         }
     }
 })

@@ -1,12 +1,12 @@
-import axios from "axios";
 import { AddBoardForm } from "../../components/Kanban/AddBoardForm";
 import { CardForm } from "../../components/Kanban/AddCardForm";
 import { KanbanTaskForm } from "../../components/Kanban/AddTaskForm";
-import { http } from "../../http/axios";
 import { IBoard, ICard, IKanbanTask } from "../../models/IKanban";
 import { kanbanSlice } from "../reducers/KanbanReducer";
 import { Dispatch } from "../store";
-import { addToFirestoreDocument, getFirestoreDocument, updateFirestoreDocument } from "../../firebase";
+import { addToFirestoreDocument, deleteFromFirestoreDocument, getFirestoreDocument, updateFirestoreDocument } from "../../firebase";
+import { kanbanSlice } from './../reducers/KanbanReducer';
+
 
 export async function loadKanbanData(dispatch: Dispatch) {
     const boards: IBoard[] = await getFirestoreDocument<IBoard>('boards')
@@ -41,3 +41,32 @@ export async function changeCardsOrder(dispatch: Dispatch, sourceCard: ICard, de
     updateFirestoreDocument<ICard>('cards', sourceCard.id, sourceCard)
     updateFirestoreDocument<ICard>('cards', destinationCard.id, destinationCard)
 }
+
+export async function editCardName(dispatch: Dispatch, updatedCard: ICard) {
+    dispatch(kanbanSlice.actions.editCard(updatedCard))
+    updateFirestoreDocument<ICard>('cards', updatedCard.id, updatedCard)
+}
+
+export async function deleteCard(dispatch: Dispatch, deletedCardId: string, boardCards: ICard[], deletedTasks: IKanbanTask[]) {
+    const updatedCards: ICard[] = boardCards
+        .filter(card => card.id !== deletedCardId)
+        .map((card, i) => ({...card, orderInBoard: i}));
+    dispatch(kanbanSlice.actions.deleteCard({deletedCardId, updatedCards}))
+    deleteFromFirestoreDocument('cards', deletedCardId)
+    await Promise.all(deletedTasks.map(task => deleteFromFirestoreDocument('kanbanTasks', task.id)))
+    await Promise.all(updatedCards.map(card => updateFirestoreDocument<ICard>('cards', card.id, card)))
+}
+
+export async function editKanbanTaskName(dispatch: Dispatch, updatedTask: IKanbanTask) {
+    dispatch(kanbanSlice.actions.editTask(updatedTask))
+    updateFirestoreDocument<IKanbanTask>('kanbanTasks', updatedTask.id, updatedTask)
+}
+
+export async function deleteKanbanTask(dispatch: Dispatch, deletedTasksId: string, cardTasks: IKanbanTask[]) {
+    const updatedTasks = cardTasks
+        .filter(task => task.id !== deletedTasksId)
+        .map((task, i) => ({...task, orderInCard: i}));
+    dispatch(kanbanSlice.actions.deleteTask({updatedTasks, deletedTasksId}))
+    deleteFromFirestoreDocument('kanbanTasks', deletedTasksId)
+    saveKanbanState(updatedTasks)
+} 

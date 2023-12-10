@@ -7,7 +7,8 @@ import { ICard } from '../../models/IKanban';
 
 export interface CardForm{
     name: string,
-    boardId: string
+    boardId: string,
+    orderInBoard: number
 }
 
 interface AddCardFormProps{
