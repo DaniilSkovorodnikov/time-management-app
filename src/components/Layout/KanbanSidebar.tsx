@@ -23,9 +23,11 @@ export default function KanbanSidebar(){
                     key={board.id}
                     onClick={() => dispatch(changeActiveBoardId(board.id))}
                 >
-                    {board.name}
+                    {board.name.length > 23 ? `${board.name.slice(0, 23)}...` : board.name}
                 </li>)}
-                {activeAddForm && <AddBoardForm onHide={() => setActiveAddForm(false)}/>}
+                {activeAddForm && <div className="kanbanSidebar__addBoard">
+                        <AddBoardForm onHide={() => setActiveAddForm(false)}/>
+                    </div>}
             </ul>
         </div>
     )

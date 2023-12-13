@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { IBoard, ICard, IKanbanTask } from '../../models/IKanban'
 import './Kanban.scss'
@@ -6,17 +6,24 @@ import AddCardForm from './AddCardForm'
 import KanbanCard from './KanbanCard'
 import {DragDropContext, OnDragEndResponder} from 'react-beautiful-dnd'
 import { kanbanSlice } from '../../store/reducers/KanbanReducer'
-import { saveKanbanState } from '../../store/actionCreators/KanbanActions'
+import { deleteBoard, editKanbanBoardName, saveKanbanState } from '../../store/actionCreators/KanbanActions'
+import deleteIcon from '../../assets/icons/delete-icon.svg'
+import editIcon from '../../assets/icons/edit-icon.svg'
+import InlineEditNameForm from '../TodoList/InlineEditNameForm'
+import ConfirmModal from '../UI/ConfirmModal'
 
 export default function Kanban(){
     const {boards, activeBoardId, cards, tasks} = useAppSelector(state => state.kanbanSlice);
     const {openedSidebar} = useAppSelector(state => state.layoutSlice);
     const dispatch = useAppDispatch();
-    const {changeTaskRelative} = kanbanSlice.actions;
+    const {changeTaskRelative, changeActiveBoardId} = kanbanSlice.actions;
     const activeBoard = useMemo<IBoard>(() => boards.find(board => board.id === activeBoardId) as IBoard, [activeBoardId, boards]);
     const boardCards = useMemo<ICard[]>(() => cards
     .filter(card => card.boardId === activeBoardId)
-    .sort((card1, card2) => card1.orderInBoard - card2.orderInBoard), [activeBoardId, cards]) ;
+    .sort((card1, card2) => card1.orderInBoard - card2.orderInBoard), [activeBoardId, cards]);
+    const boardTasks = useMemo<IKanbanTask[]>(() => tasks.filter(task => boardCards.some(card => card.id === task.cardId)), [boardCards, tasks])
+    const [editBoardForm, setEditBoardForm] = useState<boolean>(false)
+    const [deleteBoardModal, setDeleteBoardModal] = useState<boolean>(false)
 
     const handleDrag: OnDragEndResponder = (result) => {
         let sourceTask = tasks.find(task => task.id === result.draggableId);
@@ -55,14 +62,40 @@ export default function Kanban(){
     return (
         <DragDropContext onDragEnd={handleDrag}>
             <div className="kanban">
-                <h1 className='kanban__title'>{activeBoard.name}</h1>
+                    <div className='kanban__header'>
+                    {editBoardForm ? 
+                        <InlineEditNameForm 
+                            onCancel={() => setEditBoardForm(false)}
+                            defaultName={activeBoard.name}
+                            asyncSubmit={(updatedValue) => editKanbanBoardName(dispatch, {...activeBoard, name: updatedValue})}
+                        /> 
+                            :
+                        <>
+                            <h1 className='kanban__title'>{activeBoard.name}</h1>
+                            <div className="kanban__buttons">
+                                <button className="action-btn" onClick={() => setDeleteBoardModal(true)}>
+                                    <img src={deleteIcon} />
+                                </button>
+                                <button className="action-btn" onClick={() => setEditBoardForm(true)}>
+                                    <img src={editIcon} />
+                                </button>
+                            </div>
+                        </>}
+                    </div>
+                
                 <div className='kanban__container' style={{width: `calc(100vw - ${openedSidebar ? '260px' : '0px'} - 80px)`}}>
                     {boardCards.map((card) => <KanbanCard card={card} key={card.id} boardCards={boardCards}/>)}
                     <AddCardForm boardCardsLength={boardCards.length}/>
                 </div>
             </div>
+            <ConfirmModal
+                onHide={() => setDeleteBoardModal(false)}
+                show={deleteBoardModal}
+                title='Удалить доску?'
+                onConfirm={() => {
+                    dispatch(changeActiveBoardId(null))
+                    deleteBoard(dispatch, activeBoard.id, boardCards, boardTasks)
+                }}/>
         </DragDropContext>
     )
-    
-    
 }

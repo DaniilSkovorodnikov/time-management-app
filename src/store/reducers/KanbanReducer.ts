@@ -27,6 +27,17 @@ export const kanbanSlice = createSlice({
         changeActiveBoardId(state, action){
             state.activeBoardId = action.payload
         },
+        editBoardName(state, {payload}){
+            const boardIndex = state.boards.findIndex(board => board.id === payload.id)
+            if(boardIndex >= 0) {
+                const boardsCopy = [...state.boards]
+                boardsCopy[boardIndex] = payload
+                state.boards = boardsCopy
+            }
+        },
+        deleteBoard(state, {payload}){
+            state.boards = state.boards.filter(board => board.id !== payload)
+        },
         updateCard(state, action){
             state.cards = action.payload
         },

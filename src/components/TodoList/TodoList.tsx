@@ -67,7 +67,7 @@ export default function TodoList() {
 				</div>}
 			</div>
 			<ul>
-				{projectTasks.filter(task => !task.sectionId || activeProjectId < 0).map(task => <li key={task.id}>
+				{projectTasks.filter(task => !task.sectionId || +activeProjectId < 0).map(task => <li key={task.id}>
 					<Task task={task}/>
 				</li>)}
 			</ul>

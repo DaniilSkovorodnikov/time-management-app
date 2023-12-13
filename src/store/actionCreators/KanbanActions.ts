@@ -5,7 +5,7 @@ import { IBoard, ICard, IKanbanTask } from "../../models/IKanban";
 import { kanbanSlice } from "../reducers/KanbanReducer";
 import { Dispatch } from "../store";
 import { addToFirestoreDocument, deleteFromFirestoreDocument, getFirestoreDocument, updateFirestoreDocument } from "../../firebase";
-import { kanbanSlice } from './../reducers/KanbanReducer';
+
 
 
 export async function loadKanbanData(dispatch: Dispatch) {
@@ -70,3 +70,15 @@ export async function deleteKanbanTask(dispatch: Dispatch, deletedTasksId: strin
     deleteFromFirestoreDocument('kanbanTasks', deletedTasksId)
     saveKanbanState(updatedTasks)
 } 
+
+export async function editKanbanBoardName(dispatch: Dispatch, updatedBoard: IBoard) {
+    dispatch(kanbanSlice.actions.editBoardName(updatedBoard))
+    updateFirestoreDocument<IBoard>('boards', updatedBoard.id, updatedBoard)
+}
+
+export async function deleteBoard(dispatch: Dispatch, deletedBoardId: string, deletedCards: ICard[], deletedTasks: IKanbanTask[]) {
+    dispatch(kanbanSlice.actions.deleteBoard(deletedBoardId))
+    deleteFromFirestoreDocument('boards', deletedBoardId)
+    await Promise.all(deletedCards.map(card => deleteFromFirestoreDocument('cards', card.id)))
+    await Promise.all(deletedTasks.map(task => deleteFromFirestoreDocument('kanbanTasks', task.id)))
+}
