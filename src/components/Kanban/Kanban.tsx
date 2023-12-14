@@ -24,6 +24,7 @@ export default function Kanban(){
     const boardTasks = useMemo<IKanbanTask[]>(() => tasks.filter(task => boardCards.some(card => card.id === task.cardId)), [boardCards, tasks])
     const [editBoardForm, setEditBoardForm] = useState<boolean>(false)
     const [deleteBoardModal, setDeleteBoardModal] = useState<boolean>(false)
+    const [openedCardForm, setOpenedCardForm] = useState<boolean>(false)
 
     const handleDrag: OnDragEndResponder = (result) => {
         let sourceTask = tasks.find(task => task.id === result.draggableId);
@@ -85,7 +86,10 @@ export default function Kanban(){
                 
                 <div className='kanban__container' style={{width: `calc(100vw - ${openedSidebar ? '260px' : '0px'} - 80px)`}}>
                     {boardCards.map((card) => <KanbanCard card={card} key={card.id} boardCards={boardCards}/>)}
-                    <AddCardForm boardCardsLength={boardCards.length}/>
+                    {openedCardForm ?
+                     <AddCardForm boardCardsLength={boardCards.length} onHide={() => setOpenedCardForm(false)}/> :
+                     <button onClick={() => setOpenedCardForm(true)} className='addCardButton'>Добавить карточку +</button>
+                    }
                 </div>
             </div>
             <ConfirmModal

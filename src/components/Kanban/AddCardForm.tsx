@@ -12,28 +12,27 @@ export interface CardForm{
 }
 
 interface AddCardFormProps{
-    boardCardsLength: number
+    boardCardsLength: number,
+    onHide: () => void
 }
 
-export default function AddCardForm({boardCardsLength}: AddCardFormProps) {
+export default function AddCardForm({boardCardsLength, onHide}: AddCardFormProps) {
     const dispatch = useAppDispatch()
     const {activeBoardId} = useAppSelector(state => state.kanbanSlice)
-    const {register, handleSubmit, formState: {isValid}} = useForm<Omit<ICard, 'id'>>({
+    const {register, handleSubmit, formState: {isValid}, reset} = useForm<Omit<ICard, 'id'>>({
         defaultValues: {
             boardId: activeBoardId,
             orderInBoard: boardCardsLength
         }
     })
-    const [openedForm, setOpenedForm] = useState<boolean>(false)
+
     
     const onSubmit: SubmitHandler<Omit<ICard, 'id'>> = (data) => {
         addCard(dispatch, data)
-        setOpenedForm(false)
+        onHide()
+        reset()
     }
-
-    if(!openedForm){
-        return <button onClick={() => setOpenedForm(true)} className='addCardButton'>Добавить карточку +</button>
-    }
+    
     return (
         <form className='cardForm' onSubmit={handleSubmit(onSubmit)}>
             <input 
@@ -43,7 +42,10 @@ export default function AddCardForm({boardCardsLength}: AddCardFormProps) {
             />
             <div className='cardForm__buttons'>
                <button className='cardForm__submit' type='submit' disabled={!isValid}>Добавить карточку</button>
-               <button className='cardForm__cancel' onClick={() => setOpenedForm(false)}>Отмена</button> 
+               <button className='cardForm__cancel' onClick={() => {
+                onHide()
+                reset()
+               }}>Отмена</button> 
             </div>
         </form>
     )
